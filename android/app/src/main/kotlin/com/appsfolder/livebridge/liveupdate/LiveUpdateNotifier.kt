@@ -1,4 +1,4 @@
-﻿package com.kakao.taxi.liveupdate
+package com.kakao.taxi.liveupdate
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -4127,19 +4127,23 @@ object LiveUpdateNotifier {
                 builder.setAutoCancel(true)
             }
         }
-        copySourceActions(
-            context = context,
-            source = source,
-            builder = builder,
-            maxActions = if (otpOverride != null) {
-                MAX_MIRRORED_ACTIONS - 1
-            } else {
-                MAX_MIRRORED_ACTIONS
-            },
-            preferMediaControls = preferMediaControls,
-            mediaPlaybackIsPlaying = mediaPlaybackIsPlaying,
-            useMediaActionSymbols = useMediaActionSymbols
-        )
+        // 外卖/打车镜像不复制源按钮：源通知被撤销后这些按钮（标记已读/删除等）
+        // 仍指向原 App 的 PendingIntent，够不到镜像卡片，表现为"点了没反应"。
+        if (smartRuleId != "food" && smartRuleId != "taxi") {
+            copySourceActions(
+                context = context,
+                source = source,
+                builder = builder,
+                maxActions = if (otpOverride != null) {
+                    MAX_MIRRORED_ACTIONS - 1
+                } else {
+                    MAX_MIRRORED_ACTIONS
+                },
+                preferMediaControls = preferMediaControls,
+                mediaPlaybackIsPlaying = mediaPlaybackIsPlaying,
+                useMediaActionSymbols = useMediaActionSymbols
+            )
+        }
 
         if (hasProgress) {
             if (indeterminate || progressMax <= 0) {
