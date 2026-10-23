@@ -40,7 +40,7 @@ const List<DictionaryLanguageOption> lbDictionaryLanguages =
     ];
 
 const String lbDictionaryRemoteBaseUrl =
-    'https://raw.githubusercontent.com/appsfolder/livebridge/refs/heads/main/android/app/src/main/assets';
+    'https://raw.githubusercontent.com/why2222/livebridge/refs/heads/main/android/app/src/main/assets';
 
 String lbDictionaryRemoteUrl(DictionaryLanguageOption language) =>
     '$lbDictionaryRemoteBaseUrl/${language.assetFileName}';
